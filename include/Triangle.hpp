@@ -1,3 +1,6 @@
+#ifndef TRIANGLE_HPP
+#define TRIANGLE_HPP
+
 #include "Vec3.hpp"
 
 class Triangle
@@ -14,3 +17,5 @@ public:
     Vec3 v[3];
 private:
 };
+
+#endif

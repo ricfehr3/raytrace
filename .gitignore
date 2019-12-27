@@ -35,3 +35,5 @@
 *.appi
 ray
 *.ppm
+*.obj
+*.mtl

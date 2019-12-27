@@ -1,6 +1,3 @@
-#ifndef TRIANGLE_HPP
-#define TRIANGLE_HPP
-
 #include <iostream>
 
 #include "Triangle.hpp"
@@ -48,5 +45,3 @@ bool Triangle::testHit(Vec3 orig, Vec3 dir)
 
     return retVal;
 }
-
-#endif
