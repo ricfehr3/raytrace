@@ -7,7 +7,7 @@
 #include "OBJParser.hpp"
 #include "Mesh.hpp"
 
-double deg2rad (double degrees) {
+double deg2rad2 (double degrees) {
         return degrees * 4.0 * atan (1.0) / 180.0;
 }
 
@@ -26,15 +26,15 @@ int main()
     const unsigned int width = 640;
     const unsigned int height = 480;
     float fov = 51.52;
-    float scale = tan(deg2rad(fov * 0.5));
+    float scale = tan(deg2rad2(fov * 0.5));
     float imageAspectRatio = width/(float)height;
 
     Mesh mesh;
-    OBJParser::ParseMesh("sphere.obj", mesh);
+    OBJParser::ParseMesh("cube.obj", mesh);
     std::cout << "From main... " << mesh.tris.size() << std::endl;
     std::cout << "tris v1 " << mesh.tris[0].v[0] << std::endl
-                << "tris v2 " << mesh.tris[0].v[1] << std::endl
-                << "tris v3 " << mesh.tris[0].v[2] << std::endl;
+              << "tris v2 " << mesh.tris[0].v[1] << std::endl
+              << "tris v3 " << mesh.tris[0].v[2] << std::endl;
 
     std::ofstream outfile;
     outfile.open("test.ppm", std::ios::out | std::ios::trunc);
@@ -47,6 +47,7 @@ int main()
         {
             float x = (2 * (i + 0.5) / (float)width - 1) * imageAspectRatio * scale;
             float y = (1 - 2 * (j + 0.5) / (float)height) * scale;
+            std::cout << "x " << x << " y " << y << std::endl;
             Vec3 dir(x, y, -1);
             Vec3 orig(0, 0, 0);
             dir = Vec3::normalize(dir);
