@@ -34,6 +34,11 @@
 *.out
 *.appi
 ray
+
+# output and test files
 *.ppm
 *.obj
 *.mtl
+
+# vim files
+*.swp
