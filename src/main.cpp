@@ -3,6 +3,7 @@
 #include <cmath>
 
 #include "Vec3.hpp"
+#include "Mat44.hpp"
 #include "Triangle.hpp"
 #include "OBJParser.hpp"
 #include "Mesh.hpp"
@@ -16,6 +17,24 @@ int main()
     Vec3 t_v0(0, 1, 5);
     Vec3 t_v1(1, -1, 5);
     Vec3 t_v2(-1, -1, 5);
+
+    Mat44 test;
+
+    int itr = 0;
+    for(int i=0; i<3; i++)
+    {
+        for(int j=0; j<3; j++)
+        {
+            test.x[i][j] = itr;
+            itr++;
+        }
+    }
+
+    std::cout << "testing mat44" << std::endl;
+    std::cout << test*test << std::endl;
+    std::cout << Mat44::Identity << std::endl;
+    std::cout << test*Vec3(1,2,3) << std::endl;
+        
 
     //std::cout << t_v0 - t_v1 << std::endl;
     //std::cout << t_v0/2 << std::endl;
@@ -47,7 +66,6 @@ int main()
         {
             float x = (2 * (i + 0.5) / (float)width - 1) * imageAspectRatio * scale;
             float y = (1 - 2 * (j + 0.5) / (float)height) * scale;
-            std::cout << "x " << x << " y " << y << std::endl;
             Vec3 dir(x, y, -1);
             Vec3 orig(0, 0, 0);
             dir = Vec3::normalize(dir);
