@@ -16,7 +16,7 @@ public:
 
     Ray castRay(Vec3 ray);
 
-private:
+//private:
     void calculateRotMat();
 
     float m_zNear;

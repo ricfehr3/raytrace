@@ -7,6 +7,8 @@
 #include "Triangle.hpp"
 #include "OBJParser.hpp"
 #include "Mesh.hpp"
+#include "Camera.hpp"
+#include "Ray.hpp"
 
 double deg2rad2 (double degrees) {
         return degrees * 4.0 * atan (1.0) / 180.0;
@@ -60,6 +62,11 @@ int main()
 
     outfile << "P3\n" << width << " " << height << "\n255\n";
 
+
+    // CAMERA
+    Vec3 camDir(0.5f, 0.5f, -1.0f);
+    Camera cam(Vec3(2.0f, 2.0f, 0.0f), Vec3::normalize(camDir), 0.1, 100);
+
     for(int j = 0; j < height; j++)
     {
         for(int i = 0; i < width; i++)
@@ -69,6 +76,13 @@ int main()
             Vec3 dir(x, y, -1);
             Vec3 orig(0, 0, 0);
             dir = Vec3::normalize(dir);
+
+            Ray ray = cam.castRay(dir);
+            orig = ray.origin;
+            dir = ray.direction;
+            //std::cout << std::endl << dir << std::endl;
+            //std::cout << ray.direction << std::endl;
+
             float r;
             float g;
             float b;
