@@ -40,6 +40,14 @@ Vec3 Vec3::normalize(const Vec3& vec3)
     return res;    
 }
 
+
+float Vec3::distance(const Vec3& u, const Vec3& v)
+{
+    Vec3 differenceVec = u - v;
+    return differenceVec.magnitude();
+}
+
+
 std::ostream& operator<<(std::ostream& os, const Vec3& vec3)
 {
     os << "x:" << vec3.x << " y:" << vec3.y << " z:" << vec3.z;

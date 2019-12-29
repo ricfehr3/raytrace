@@ -30,7 +30,7 @@ void Triangle::calculateFlatNormals()
 }
     
 
-bool Triangle::testHit(Vec3 orig, Vec3 dir, Vec3 &normal)
+bool Triangle::testHit(Vec3 orig, Vec3 dir, Vec3 &normal, float &distance)
 {
     bool retVal = true;
     Vec3 E1vec = vert[1].v - vert[0].v;
@@ -53,12 +53,9 @@ bool Triangle::testHit(Vec3 orig, Vec3 dir, Vec3 &normal)
 
     if(retVal == true)
     {
-        /*
-        normal = Vec3::cross(E1vec, E2vec);
-        normal = Vec3::normalize(normal);
-        */
         normal = vert[0].vn*w + vert[1].vn*u + vert[2].vn*v;
         normal = Vec3::normalize(normal);
+        distance = t;
     }
 
     return retVal;

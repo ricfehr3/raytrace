@@ -11,7 +11,7 @@ public:
 
     Vec3 normal() const;
     void calculateFlatNormals();
-    bool testHit(Vec3 orig, Vec3 dir, Vec3 &normal);
+    bool testHit(Vec3 orig, Vec3 dir, Vec3 &normal, float &distance);
 
     Vertex vert[3];
 private:

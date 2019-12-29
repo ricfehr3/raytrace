@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <cmath>
+#include <chrono>
        
 #include "OBJParser.hpp"
 #include "Mesh.hpp"
@@ -38,7 +39,7 @@ int main()
     float imageAspectRatio = width/(float)height;
 
     Mesh mesh;
-    OBJParser::ParseMesh("sphere.obj", mesh);
+    OBJParser::ParseMesh("man_scene.obj", mesh);
     std::cout << "From main... " << mesh.tris.size() << std::endl;
     std::cout << "tris v1 " << mesh.tris[0].vert[0].v << std::endl
               << "tris v2 " << mesh.tris[0].vert[1].v << std::endl
@@ -53,6 +54,8 @@ int main()
     // CAMERA
     Vec3 camDir(0.5f, 0.5f, -1.0f);
     Camera cam(Vec3(2.0f, 2.0f, 0.0f), Vec3::normalize(camDir), 0.1, 100);
+
+    auto t1 = std::chrono::high_resolution_clock::now();
 
     for(int j = 0; j < height; j++)
     {
@@ -81,34 +84,22 @@ int main()
             ig = 0;
             ib = 128.0f;
 
-            for (auto& it : mesh.tris) 
-            {
-                Vec3 normal;
-                if(it.testHit(orig, dir, normal))
-                {
-                    /*
-                    r = float(i) / float(width);
-                    g = float(j) / float(height);
-                    b = 0.2;
-                    ir = int(255.99*r);
-                    ig = int(255.99*g);
-                    ib = int(255.99*b);
-                    */
+            Vec3 color;
+            Vec3 normal;
+            mesh.testHit(orig, dir, normal, color);
 
-                    float shadeScale = Vec3::dot(dir, normal);
-                    if(shadeScale < 0)
-                    {
-                        shadeScale = -shadeScale;
-                        ir = int(255.99*shadeScale);
-                        ig = int(255.99*shadeScale);
-                        ib = int(255.99*shadeScale);
-                    }
-                }
-            }
-            
+            ir = color.x;
+            ig = color.y;
+            ib = color.z;
+
             outfile << ir << " " << ig << " " << ib << "\n";
         }
     }
+
+    auto t2 = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>( t2 - t1 ).count();
+
+    std::cout << "damn, that took " << duration << " milliseconds!" << std::endl;
 
     outfile.close();
 }

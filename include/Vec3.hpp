@@ -15,6 +15,7 @@ public:
     static float dot(const Vec3& first, const Vec3& second);
     static Vec3 cross(const Vec3& first, const Vec3& second);
     static Vec3 normalize(const Vec3& vec3);
+    static float distance(const Vec3& u, const Vec3& v);
 
     // operator overloading
     friend std::ostream& operator<<(std::ostream& os, const Vec3& vec3);
