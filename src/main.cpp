@@ -1,10 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <cmath>
-
-#include "Vec3.hpp"
-#include "Mat44.hpp"
-#include "Triangle.hpp"
+       
 #include "OBJParser.hpp"
 #include "Mesh.hpp"
 #include "Camera.hpp"
@@ -16,10 +13,6 @@ double deg2rad2 (double degrees) {
 
 int main() 
 {
-    Vec3 t_v0(0, 1, 5);
-    Vec3 t_v1(1, -1, 5);
-    Vec3 t_v2(-1, -1, 5);
-
     Mat44 test;
 
     int itr = 0;
@@ -38,12 +31,6 @@ int main()
     std::cout << test*Vec3(1,2,3) << std::endl;
         
 
-    //std::cout << t_v0 - t_v1 << std::endl;
-    //std::cout << t_v0/2 << std::endl;
-    //std::cout << Vec3::normalize(t_v0) << std::endl;
-
-    Triangle tri(t_v0, t_v1, t_v2);
-
     const unsigned int width = 640;
     const unsigned int height = 480;
     float fov = 51.52;
@@ -51,11 +38,11 @@ int main()
     float imageAspectRatio = width/(float)height;
 
     Mesh mesh;
-    OBJParser::ParseMesh("cube.obj", mesh);
+    OBJParser::ParseMesh("sphere.obj", mesh);
     std::cout << "From main... " << mesh.tris.size() << std::endl;
-    std::cout << "tris v1 " << mesh.tris[0].v[0] << std::endl
-              << "tris v2 " << mesh.tris[0].v[1] << std::endl
-              << "tris v3 " << mesh.tris[0].v[2] << std::endl;
+    std::cout << "tris v1 " << mesh.tris[0].vert[0].v << std::endl
+              << "tris v2 " << mesh.tris[0].vert[1].v << std::endl
+              << "tris v3 " << mesh.tris[0].vert[2].v << std::endl;
 
     std::ofstream outfile;
     outfile.open("test.ppm", std::ios::out | std::ios::trunc);
@@ -92,18 +79,30 @@ int main()
 
             ir = 0;
             ig = 0;
-            ib = 0;
+            ib = 128.0f;
 
             for (auto& it : mesh.tris) 
             {
-                if(it.testHit(orig, dir))
+                Vec3 normal;
+                if(it.testHit(orig, dir, normal))
                 {
+                    /*
                     r = float(i) / float(width);
                     g = float(j) / float(height);
                     b = 0.2;
                     ir = int(255.99*r);
                     ig = int(255.99*g);
                     ib = int(255.99*b);
+                    */
+
+                    float shadeScale = Vec3::dot(dir, normal);
+                    if(shadeScale < 0)
+                    {
+                        shadeScale = -shadeScale;
+                        ir = int(255.99*shadeScale);
+                        ig = int(255.99*shadeScale);
+                        ib = int(255.99*shadeScale);
+                    }
                 }
             }
             

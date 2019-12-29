@@ -1,20 +1,19 @@
 #ifndef TRIANGLE_HPP
 #define TRIANGLE_HPP
 
-#include "Vec3.hpp"
+#include "Vertex.hpp"
 
 class Triangle
 {
 public:
-    Triangle(Vec3 v0, Vec3 v1, Vec3 v2);
-    Triangle() : Triangle(Vec3( 0.0f,  1.0f,  0.0f),
-                          Vec3( 1.0f, -1.0f,  0.0f),
-                          Vec3(-1.0f, -1.0f,  0.0f)) {} 
+    Triangle(Vertex vert0, Vertex vert1, Vertex vert2);
+    Triangle() : Triangle(Vertex(), Vertex(), Vertex()) {} 
 
     Vec3 normal() const;
-    bool testHit(Vec3 orig, Vec3 dir);
+    void calculateFlatNormals();
+    bool testHit(Vec3 orig, Vec3 dir, Vec3 &normal);
 
-    Vec3 v[3];
+    Vertex vert[3];
 private:
 };
 
