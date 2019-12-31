@@ -1,3 +1,0 @@
-$CPPFLAGS is [-I./include -MMD -MP -O3 -std=c++17 -Wall -g -Iinclude ]
-cc  ./src/Hitable.o ./src/Vec3.o ./src/MathHelper.o ./src/Renderer.o ./src/Scene.o ./src/ScreenConfig.o ./src/main.o ./src/Mesh.o ./src/OBJParser.o ./src/Vertex.o ./src/Ray.o ./src/Light.o ./src/Mat44.o ./src/Camera.o ./src/Triangle.o -o ray  
-Makefile:15: recipe for target 'ray' failed
