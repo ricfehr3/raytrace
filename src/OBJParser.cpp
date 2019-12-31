@@ -108,8 +108,6 @@ void OBJParser::ParseMesh(const std::string &filename, Mesh& mesh)
                 v0.vn = verticesNorm[vn[0]];
                 v1.vn = verticesNorm[vn[1]];
                 v2.vn = verticesNorm[vn[2]];
-                
-                std::cout << "epic " << vn[0] << std::endl; 
             }
 
             v0.v = verticesPos[v[0]];
@@ -122,26 +120,8 @@ void OBJParser::ParseMesh(const std::string &filename, Mesh& mesh)
                 tri.calculateFlatNormals();
             
             tris.push_back(tri);
-            /*
-            std::vector<int> tokens;
-            std::string token;
-            char delimiter = '/';
-            while(objfile >> temp)
-            {    
-                std::istringstream tokenStream(temp);
-                while(std::getline(tokenStream, token, delimiter))
-                {
-                    tokens.push_back(::atoi(token.c_str()) - 1);
-                }
-
-                Triangle tri(vertices[tokens[0]], vertices[tokens[1]], vertices[tokens[2]]);
-                tris.push_back(tri);
-                tokens.clear();
-            }
-            */
         }
     }
 
     mesh.tris = tris;
-    std::cout << "From OBJParser... " << mesh.tris.size() << std::endl;
 }
