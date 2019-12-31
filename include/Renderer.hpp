@@ -2,32 +2,43 @@
 #define RENDERER_HPP
 
 #include <string>
+#include <cmath>
 
 #include "Scene.hpp"
+#include "MathHelper.hpp"
 
 struct RendererOptions
 {
-    RendererOptions(int w, int h)
+    RendererOptions(int w, int h, float fov)
     {
         width = w;
         height = h;
+        this->fov = fov;
+        scale = tan(MathHelper::deg2rad(fov * 0.5));
+        imageAspectRatio = width/(float)height;
     }
 
     RendererOptions()
     {
-        width = 0;
-        height = 0;
+        width = 640;
+        height = 480;
+        fov = 51.52;
+        scale = tan(MathHelper::deg2rad(fov * 0.5));
+        imageAspectRatio = width/(float)height;
     }
 
     int width;
     int height;
+    float fov;
+    float scale;
+    float imageAspectRatio;
 };
 
 class Renderer
 {
 public:
     Renderer();
-    void Render(Scene scene);
+    void Render(const Scene &scene);
     void setImageName(const std::string &imageName);
     void setOptions(const RendererOptions &options);
 

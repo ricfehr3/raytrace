@@ -30,7 +30,7 @@ void Triangle::calculateFlatNormals()
 }
     
 
-bool Triangle::testHit(Vec3 orig, Vec3 dir, Vec3 &normal, float &distance)
+bool Triangle::testHit(const Vec3 &orig, const Vec3 &dir, Vec3 &normal, float &distance) const
 {
     bool retVal = true;
     Vec3 E1vec = vert[1].v - vert[0].v;

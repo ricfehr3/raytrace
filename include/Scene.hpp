@@ -7,6 +7,9 @@
 #include "Light.hpp"
 #include "Camera.hpp"
 
+// forward declare for friend class
+class Renderer;
+
 // I feel that the scene object should only be described in as a list of meshes and lights.
 // All rendering functionality should be handled by a separate object.
 // I may need to fix some methods with the triangle and what not. Maybe move the detect hit functionality higher to the renderer.
@@ -19,9 +22,10 @@ public:
     void addMesh(const Mesh &mesh);
     void addLight(const Light &light);
     void addCamera(const Camera &camera);
-    bool hasCamera();
+    bool hasCamera() const;
 
 private:
+    friend class Renderer;
     Mesh m_mesh; 
     Light m_light;
     Camera m_camera;

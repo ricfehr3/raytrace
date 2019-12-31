@@ -1,7 +1,7 @@
 SOURCEDIR = src
 BUILDDIR = build
 
-CXXFLAGS = -std=c++17 -Wall -g -Iinclude 
+CXXFLAGS = -std=c++17 -O3 -Wall -g -Iinclude
 LDFLAGS = -lm
 TARGET = ray
 SRCS = $(wildcard $(SOURCEDIR)/*.cpp)
@@ -10,22 +10,18 @@ OBJS = $(patsubst $(SOURCEDIR)/%.cpp,$(BUILDDIR)/%.o,$(SRCS))
 all: $(TARGET)\
 
 $(TARGET): $(OBJS) 
-	$(CXX) -o $(TARGET) $(CXXFLAGS) $(OBJS) $(LDFLAGS)
-			
+		$(CXX) -o $(TARGET) $(CXXFLAGS) $(OBJS) $(LDFLAGS)
+
 $(OBJS): $(BUILDDIR)/%.o : $(SOURCEDIR)/%.cpp
-	$(CXX) -c $(CXXFLAGS) -DBOOST_LOG_DYN_LINK $< -o $@
+		$(CXX) -c $(CXXFLAGS) -DBOOST_LOG_DYN_LINK $< -o $@
 
 .PHONY: test clean
 
-test:
-	echo "No tests. yet ;)"
+test: ray
+		echo "No tests. yet ;)"
 
 clean:
-	rm -f $(BUILDDIR)/* core *.core $(TARGET)
+		rm -f $(BUILDDIR)/* core *.core $(TARGET)
 			
 install:
-	echo "Installing is not supported"
-			
-run:
-	./$(TARGET)
-
+		echo "Installing is not supported"

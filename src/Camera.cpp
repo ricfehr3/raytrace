@@ -11,7 +11,7 @@ Camera::Camera(Vec3 origin, Vec3 direction, float zNear, float zFar)
 }
 
 
-Ray Camera::castRay(Vec3 ray)
+Ray Camera::castRay(const Vec3 &ray) const
 {
     Ray res;
     Vec3 rotRay = m_rotMat*ray;

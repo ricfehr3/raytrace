@@ -14,7 +14,7 @@ public:
                       0.1f,
                       100.0f) {}
 
-    Ray castRay(Vec3 ray);
+    Ray castRay(const Vec3 &ray) const;
 
 //private:
     void calculateRotMat();

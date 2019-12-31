@@ -10,7 +10,7 @@ struct T_HIT
 };
 
 
-bool Mesh::testHit(Vec3 origin, Vec3 direction, Vec3 &normal, Vec3 &color)
+bool Mesh::testHit(const Vec3 &origin, const Vec3 &direction, Vec3 &normal, Vec3 &color) const
 {
     std::vector<T_HIT> hitDistances;
     bool isHit = false;

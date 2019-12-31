@@ -30,7 +30,7 @@ void Scene::addCamera(const Camera &camera)
 }
 
 
-bool Scene::hasCamera()
+bool Scene::hasCamera() const
 {
     return m_bHasCamera;
 }
