@@ -70,8 +70,6 @@ int main()
             Ray ray = cam.castRay(dir);
             orig = ray.origin;
             dir = ray.direction;
-            //std::cout << std::endl << dir << std::endl;
-            //std::cout << ray.direction << std::endl;
 
             float r;
             float g;
