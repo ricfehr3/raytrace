@@ -1,4 +1,5 @@
 #include <fstream>
+#include <stdexcept>
 
 #include "Renderer.hpp"
 
@@ -16,13 +17,13 @@ Renderer::Renderer()
 void Renderer::render(const Scene &scene)
 {
     if(m_imageName == "") 
-        throw "No image name for renderer";
+        throw std::runtime_error("No image name for renderer");
 
     if(!scene.hasCamera()) 
-        throw "Scene has no camera";
+        throw std::runtime_error("Scene has no camera");
 
     if(!m_bOptionsSet)
-        throw "Renderer options are not set";
+        throw std::runtime_error("Renderer options are not set");
 
     std::ofstream outfile;
     outfile.open("test.ppm", std::ios::out | std::ios::trunc);
