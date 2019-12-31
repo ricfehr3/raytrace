@@ -25,15 +25,14 @@ int main()
     Renderer renderer;
     RendererOptions options;
     renderer.setOptions(options);
+    renderer.setImageName("test.ppm");
 
     try
     {
-        renderer.setImageName("test.ppm");
+        renderer.render(scene); 
     }
     catch (const std::exception& e)
     {
         std::cout << "Caught Exception: " << e.what() << std::endl;
     }
-
-    renderer.render(scene); 
 }
