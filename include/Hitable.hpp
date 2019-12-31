@@ -6,7 +6,6 @@
 class Hitable
 {
 public:
-
     virtual bool testHit();
 
 private:

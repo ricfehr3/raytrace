@@ -5,6 +5,7 @@ class MathHelper
 {
 public:
     static double deg2rad(double degrees);
+    static const double PI;
 private:
 };
 

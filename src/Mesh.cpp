@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <cmath>
 
 #include "Mesh.hpp"
 
@@ -10,7 +11,7 @@ struct T_HIT
 };
 
 
-bool Mesh::testHit(const Vec3 &origin, const Vec3 &direction, Vec3 &normal, Vec3 &color) const
+bool Mesh::testHit(const Vec3 &origin, const Vec3 &direction, const Light &light, Vec3 &normal, Vec3 &color) const
 {
     std::vector<T_HIT> hitDistances;
     bool isHit = false;
@@ -24,12 +25,21 @@ bool Mesh::testHit(const Vec3 &origin, const Vec3 &direction, Vec3 &normal, Vec3
             isHit = true;
 
             float shadeScale = Vec3::dot(direction, normal);
-            if(shadeScale < 0)
+            if(shadeScale >= 0)
             {
+                /*
                 shadeScale = -shadeScale;
                 color.x = int(255.99*shadeScale);
                 color.y = int(255.99*shadeScale);
                 color.z = int(255.99*shadeScale);
+                */
+                Vec3 albedo(0.0f, 1.0f, 1.0f);
+                color = albedo / M_PI;
+                float testing = light.intensity * std::max(0.0f, Vec3::dot(normal, light.direction));
+                color = /*light.color * */color * testing;
+                color.x = int(255.99*color.x);
+                color.y = int(255.99*color.y);
+                color.z = int(255.99*color.z);
                 hitCount++;
                 struct T_HIT hit {color, distance};
                 hitDistances.push_back(hit);

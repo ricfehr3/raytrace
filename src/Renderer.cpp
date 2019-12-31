@@ -22,6 +22,9 @@ void Renderer::render(const Scene &scene)
     if(!scene.hasCamera()) 
         throw std::runtime_error("Scene has no camera");
 
+    if(!scene.hasLight()) 
+        throw std::runtime_error("Scene has no light");
+
     if(!m_bOptionsSet)
         throw std::runtime_error("Renderer options are not set");
 
@@ -57,7 +60,7 @@ void Renderer::render(const Scene &scene)
 
             Vec3 color;
             Vec3 normal;
-            scene.m_mesh.testHit(orig, dir, normal, color);
+            scene.m_mesh.testHit(orig, dir, scene.m_light, normal, color);
 
             ir = color.x;
             ig = color.y;

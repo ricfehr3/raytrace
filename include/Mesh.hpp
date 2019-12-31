@@ -5,13 +5,14 @@
 
 #include "Triangle.hpp"
 #include "Vec3.hpp"
+#include "Light.hpp"
 
 class Mesh
 {
 public:
     std::vector<Triangle> tris; 
 
-    bool testHit(const Vec3 &origin, const Vec3 &direction, Vec3 &normal, Vec3 &color) const;
+    bool testHit(const Vec3 &origin, const Vec3 &direction, const Light &light, Vec3 &normal, Vec3 &color) const;
 
 private:
 };

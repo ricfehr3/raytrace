@@ -4,6 +4,7 @@
 Scene::Scene()
 {
     m_bHasCamera = false;
+    m_bHasLight = false;
 }
 
 
@@ -27,10 +28,17 @@ void Scene::addCamera(const Camera &camera)
         throw "Scene already has camera";
 
     m_bHasCamera = true;
+    m_bHasLight = true;
 }
 
 
 bool Scene::hasCamera() const
 {
     return m_bHasCamera;
+}
+
+
+bool Scene::hasLight() const
+{
+    return m_bHasLight;
 }

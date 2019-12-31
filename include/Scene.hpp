@@ -23,6 +23,7 @@ public:
     void addLight(const Light &light);
     void addCamera(const Camera &camera);
     bool hasCamera() const;
+    bool hasLight() const;
 
 private:
     friend class Renderer;
@@ -30,6 +31,7 @@ private:
     Light m_light;
     Camera m_camera;
     bool m_bHasCamera;
+    bool m_bHasLight;
 };
 
 #endif
