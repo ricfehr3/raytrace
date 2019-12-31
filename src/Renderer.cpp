@@ -13,7 +13,7 @@ Renderer::Renderer()
 }
 
 
-void Renderer::Render(const Scene &scene)
+void Renderer::render(const Scene &scene)
 {
     if(m_imageName == "") 
         throw "No image name for renderer";

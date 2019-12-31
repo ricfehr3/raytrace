@@ -38,7 +38,7 @@ class Renderer
 {
 public:
     Renderer();
-    void Render(const Scene &scene);
+    void render(const Scene &scene);
     void setImageName(const std::string &imageName);
     void setOptions(const RendererOptions &options);
 
