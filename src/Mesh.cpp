@@ -6,20 +6,19 @@
 
 struct T_HIT
 {
-    Vec3 hitColor;
+    Vec3 normal;
     float distance;
 };
 
 
-bool Mesh::testHit(const Ray &ray, const std::unique_ptr<Light> &light, Vec3 &normal, Vec3 &color) const
+bool Mesh::testHit(const Ray &ray, Vec3& normal, float &distance) const
 {
-    std::vector<T_HIT> hitDistances;
+    std::vector<T_HIT> vHits;
     bool isHit = false;
     int hitCount = 0;
 
     for (auto& it : tris) 
     {
-        float distance = 0.0f;
         if(it.testHit(ray.origin, ray.direction, normal, distance))
         {
             isHit = true;
@@ -27,38 +26,11 @@ bool Mesh::testHit(const Ray &ray, const std::unique_ptr<Light> &light, Vec3 &no
             float shadeScale = Vec3::dot(ray.direction, normal);
             if(shadeScale < 0)
             {
-                /*
-                shadeScale = -shadeScale;
-                color.x = int(255.99*shadeScale);
-                color.y = int(255.99*shadeScale);
-                color.z = int(255.99*shadeScale);
-                */
-                Vec3 albedo(0.0f, 1.0f, 1.0f);
-                color = albedo / M_PI;
-                float testing = light->intensity * std::max(0.0f, Vec3::dot(normal, light->direction));
-                Vec3 tempVec3 = light->color * color;
-
-                std::cout <<
-                    "From Mesh... " << std::endl <<
-                    "intensity: " << light->intensity << std::endl <<
-                    "direction: " << light->direction << std::endl <<
-                    "color:     " << light->color << std::endl <<
-                    "position:  " << light->position << std::endl <<
-                    std::endl;
-
-                color = tempVec3 * testing;
-                color.x = int(255.99*color.x);
-                color.y = int(255.99*color.y);
-                color.z = int(255.99*color.z);
-                if(color.x > 255)
-                    color.x = 255;
-                if(color.y > 255)
-                    color.y = 255;
-                if(color.z > 255)
-                    color.z = 255;
+                T_HIT hit;
+                hit.distance = distance;
+                hit.normal = normal;
                 hitCount++;
-                struct T_HIT hit {color, distance};
-                hitDistances.push_back(hit);
+                vHits.push_back(hit);
             }
         }
     }
@@ -66,12 +38,13 @@ bool Mesh::testHit(const Ray &ray, const std::unique_ptr<Light> &light, Vec3 &no
     // determine closest hit
     if(hitCount > 1)
     { 
-        std::sort(hitDistances.begin(), hitDistances.end(), [](const T_HIT &lhs, const T_HIT &rhs)
+        std::sort(vHits.begin(), vHits.end(), [](const T_HIT &lhs, const T_HIT &rhs)
                 {
                     return lhs.distance < rhs.distance;
                 });
 
-        color = hitDistances.front().hitColor;
+        distance = vHits.front().distance;
+        normal = vHits.front().normal;
     }
 
     return isHit;

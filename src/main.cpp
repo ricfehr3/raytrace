@@ -10,8 +10,11 @@
 #include "Light.hpp"
 #include "DirectionalLight.hpp"
 #include "Ray.hpp"
+#include "HitableObject.hpp"
+#include "HitableMeshObject.hpp"
 #include "Scene.hpp"
 #include "Renderer.hpp"
+#include "Color.hpp"
 
 int main() 
 {
@@ -33,26 +36,15 @@ int main()
     light.direction = lightDir;
     light.intensity = lightIntensity;
 
-    std::cout <<
-        "From main... " << std::endl <<
-        "intensity: " << light.intensity << std::endl <<
-        "direction: " << light.direction << std::endl <<
-        "color:     " << light.color << std::endl <<
-        "position:  " << light.position << std::endl <<
-        std::endl;
-        
     auto lightUniqPtr = std::make_unique<Light>(light);
     
-    std::cout <<
-        "From main... " << std::endl <<
-        "intensity: " << (*lightUniqPtr).intensity << std::endl <<
-        "direction: " << (*lightUniqPtr).direction << std::endl <<
-        "color:     " << (*lightUniqPtr).color << std::endl <<
-        "position:  " << (*lightUniqPtr).position << std::endl <<
-        std::endl;
+    HitableMeshObject hitable;
+    hitable.material.albedo = Color(1.0f, 0.0f, 0.0f); 
+    hitable.setMesh(mesh);
 
     Scene scene;
     scene.addMesh(mesh);
+    scene.addHitableObject(&hitable);
     scene.addCamera(cam);
     scene.addLight(lightUniqPtr);
 
