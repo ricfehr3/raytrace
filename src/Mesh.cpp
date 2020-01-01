@@ -11,7 +11,7 @@ struct T_HIT
 };
 
 
-bool Mesh::testHit(const Vec3 &origin, const Vec3 &direction, const Light &light, Vec3 &normal, Vec3 &color) const
+bool Mesh::testHit(const Vec3 &origin, const Vec3 &direction, const std::unique_ptr<Light> &light, Vec3 &normal, Vec3 &color) const
 {
     std::vector<T_HIT> hitDistances;
     bool isHit = false;
@@ -35,8 +35,17 @@ bool Mesh::testHit(const Vec3 &origin, const Vec3 &direction, const Light &light
                 */
                 Vec3 albedo(0.0f, 1.0f, 1.0f);
                 color = albedo / M_PI;
-                float testing = light.intensity * std::max(0.0f, Vec3::dot(normal, light.direction));
-                Vec3 tempVec3 = light.color * color;
+                float testing = light->intensity * std::max(0.0f, Vec3::dot(normal, light->direction));
+                Vec3 tempVec3 = light->color * color;
+
+                std::cout <<
+                    "From Mesh... " << std::endl <<
+                    "intensity: " << light->intensity << std::endl <<
+                    "direction: " << light->direction << std::endl <<
+                    "color:     " << light->color << std::endl <<
+                    "position:  " << light->position << std::endl <<
+                    std::endl;
+
                 color = tempVec3 * testing;
                 color.x = int(255.99*color.x);
                 color.y = int(255.99*color.y);

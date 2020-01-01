@@ -6,14 +6,13 @@
 class Light
 {
 public:
-    Light();
-
     Vec3 color;
     Vec3 position;
     Vec3 direction;
     float intensity;
 
 private:
+
 };
 
 #endif

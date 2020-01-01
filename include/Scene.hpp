@@ -2,9 +2,11 @@
 #define SCENE_HPP
 
 #include <vector>
+#include <memory>
 
 #include "Mesh.hpp"
 #include "Light.hpp"
+#include "DirectionalLight.hpp"
 #include "Camera.hpp"
 
 // forward declare for friend class
@@ -20,7 +22,7 @@ public:
 	Scene();
 
     void addMesh(const Mesh &mesh);
-    void addLight(const Light &light);
+    void addLight(std::unique_ptr<Light>& light);
     void addCamera(const Camera &camera);
     bool hasCamera() const;
     bool hasLight() const;
@@ -28,7 +30,8 @@ public:
 private:
     friend class Renderer;
     Mesh m_mesh; 
-    Light m_light;
+    std::vector<std::unique_ptr<Light>> m_vLights;
+    //DirectionalLight m_light;
     Camera m_camera;
     bool m_bHasCamera;
     bool m_bHasLight;

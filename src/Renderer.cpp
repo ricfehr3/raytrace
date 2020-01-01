@@ -57,7 +57,8 @@ void Renderer::render(const Scene &scene)
 
             Vec3 color;
             Vec3 normal;
-            scene.m_mesh.testHit(orig, dir, scene.m_light, normal, color);
+            //scene.m_mesh.testHit(orig, dir, scene.m_light, normal, color);
+            scene.m_mesh.testHit(orig, dir, scene.m_vLights[0], normal, color);
 
             ir = color.x;
             ig = color.y;

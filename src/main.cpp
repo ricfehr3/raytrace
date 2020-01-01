@@ -1,12 +1,14 @@
 #include <iostream>
 #include <fstream>
 #include <cmath>
+#include <memory>
 #include <chrono>
        
 #include "OBJParser.hpp"
 #include "Mesh.hpp"
 #include "Camera.hpp"
 #include "Light.hpp"
+#include "DirectionalLight.hpp"
 #include "Ray.hpp"
 #include "Scene.hpp"
 #include "Renderer.hpp"
@@ -25,16 +27,34 @@ int main()
     Vec3 lightPos(0.0f, 0.0f, 0.0f);
     Vec3 lightDir(1.0f, 0.5f, -1.0f);
     float lightIntensity = 1.0f;
-    Light light;
+    DirectionalLight light;
     light.color = lightColor;
     light.position = lightPos;
     light.direction = lightDir;
     light.intensity = lightIntensity;
 
+    std::cout <<
+        "From main... " << std::endl <<
+        "intensity: " << light.intensity << std::endl <<
+        "direction: " << light.direction << std::endl <<
+        "color:     " << light.color << std::endl <<
+        "position:  " << light.position << std::endl <<
+        std::endl;
+        
+    auto lightUniqPtr = std::make_unique<Light>(light);
+    
+    std::cout <<
+        "From main... " << std::endl <<
+        "intensity: " << (*lightUniqPtr).intensity << std::endl <<
+        "direction: " << (*lightUniqPtr).direction << std::endl <<
+        "color:     " << (*lightUniqPtr).color << std::endl <<
+        "position:  " << (*lightUniqPtr).position << std::endl <<
+        std::endl;
+
     Scene scene;
     scene.addMesh(mesh);
     scene.addCamera(cam);
-    scene.addLight(light);
+    scene.addLight(lightUniqPtr);
 
     Renderer renderer;
     RendererOptions options;
