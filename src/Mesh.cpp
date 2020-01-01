@@ -11,7 +11,7 @@ struct T_HIT
 };
 
 
-bool Mesh::testHit(const Vec3 &origin, const Vec3 &direction, const std::unique_ptr<Light> &light, Vec3 &normal, Vec3 &color) const
+bool Mesh::testHit(const Ray &ray, const std::unique_ptr<Light> &light, Vec3 &normal, Vec3 &color) const
 {
     std::vector<T_HIT> hitDistances;
     bool isHit = false;
@@ -20,11 +20,11 @@ bool Mesh::testHit(const Vec3 &origin, const Vec3 &direction, const std::unique_
     for (auto& it : tris) 
     {
         float distance = 0.0f;
-        if(it.testHit(origin, direction, normal, distance))
+        if(it.testHit(ray.origin, ray.direction, normal, distance))
         {
             isHit = true;
 
-            float shadeScale = Vec3::dot(direction, normal);
+            float shadeScale = Vec3::dot(ray.direction, normal);
             if(shadeScale < 0)
             {
                 /*

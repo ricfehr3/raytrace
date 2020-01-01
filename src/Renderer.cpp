@@ -2,6 +2,7 @@
 #include <stdexcept>
 
 #include "Renderer.hpp"
+#include "Ray.hpp"
 
 Renderer::Renderer()
 {
@@ -44,8 +45,8 @@ void Renderer::render(const Scene &scene)
             dir = Vec3::normalize(dir);
 
             Ray ray = scene.m_camera.castRay(dir);
-            orig = ray.origin;
-            dir = ray.direction;
+            //orig = ray.origin;
+            //dir = ray.direction;
 
             int ir;
             int ig;
@@ -58,7 +59,7 @@ void Renderer::render(const Scene &scene)
             Vec3 color;
             Vec3 normal;
             //scene.m_mesh.testHit(orig, dir, scene.m_light, normal, color);
-            scene.m_mesh.testHit(orig, dir, scene.m_vLights[0], normal, color);
+            scene.m_mesh.testHit(ray, scene.m_vLights[0], normal, color);
 
             ir = color.x;
             ig = color.y;
