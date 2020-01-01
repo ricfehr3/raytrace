@@ -3,7 +3,7 @@
 
 #include "SceneObject.hpp"
 
-class HitableObject : SceneObject
+class HitableObject : public SceneObject
 {
 public:
     virtual bool testHit();

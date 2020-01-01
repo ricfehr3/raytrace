@@ -1,9 +1,12 @@
 #ifndef HITABLEMESHOBJECT_HPP
 #define HITABLEMESHOBJECT_HPP
 
-class HitableMeshObject
+#include "HitableObject.hpp"
+
+class HitableMeshObject : public HitableObject
 {
 public:
+    
 
 private:
 };
