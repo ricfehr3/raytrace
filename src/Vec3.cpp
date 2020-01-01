@@ -73,6 +73,16 @@ Vec3 Vec3::operator-(Vec3 const &vec3) const
     res.z = z - vec3.z;
     return res;
 }
+
+
+Vec3 Vec3::operator*(Vec3 const &vec3) const
+{
+    Vec3 res;
+    res.x = x * vec3.x;
+    res.y = y * vec3.y;
+    res.z = z * vec3.z;
+    return res;
+}
     
 
 Vec3 Vec3::operator/(float const scalar) const

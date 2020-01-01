@@ -47,9 +47,6 @@ void Renderer::render(const Scene &scene)
             orig = ray.origin;
             dir = ray.direction;
 
-            float r;
-            float g;
-            float b;
             int ir;
             int ig;
             int ib;

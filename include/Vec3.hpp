@@ -21,6 +21,7 @@ public:
     friend std::ostream& operator<<(std::ostream& os, const Vec3& vec3);
     Vec3 operator+(Vec3 const &vec3) const;
     Vec3 operator-(Vec3 const &vec3) const;
+    Vec3 operator*(Vec3 const &vec3) const;
     Vec3 operator/(float const scalar) const;
     Vec3 operator*(float const scalar) const;
 

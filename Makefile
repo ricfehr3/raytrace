@@ -13,7 +13,7 @@ $(TARGET): $(OBJS)
 		$(CXX) -o $(TARGET) $(CXXFLAGS) $(OBJS) $(LDFLAGS)
 
 $(OBJS): $(BUILDDIR)/%.o : $(SOURCEDIR)/%.cpp
-		$(CXX) -c $(CXXFLAGS) -DBOOST_LOG_DYN_LINK $< -o $@
+		$(CXX) -c $(CXXFLAGS) $< -o $@
 
 .PHONY: test clean
 
