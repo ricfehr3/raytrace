@@ -13,6 +13,7 @@ class HitableObject : public SceneObject
 {
 public:
     virtual bool testHit(const Ray& ray, Vec3& normal, float &distance) = 0;
+    virtual bool testHit(const Ray& ray) = 0;
     virtual ~HitableObject() {};
 
     Material material; 

@@ -75,27 +75,63 @@ void Renderer::render(const Scene &scene) const
                 {
                     isHit = true;
                     HitRecord record;
+
+                    bool inShadow = false;
+                    // calculate shadows, epic time:
+                    // first, make a ray
+                    Ray shadowRay;
+                    // second, find the origin
+                    // the math should make sense intuitively
+                    Vec3 shadowOrigin = ray.origin + ray.direction * distance;  
+                    // third, get the direction
+                    // subtract the shadow origin from the light source position and normalize
+                    //Vec3 shadowDirection = Vec3::normalize(shadowOrigin - light->position);
+                    //Vec3 shadowDirection = Vec3::normalize(light->direction - shadowOrigin);
+                    Vec3 shadowDirection = Vec3::normalize(light->direction);
+                    ////Vec3 shadowDirection = Vec3::normalize(Vec3(0.0f, 1.0f, 0.0f));
+                    shadowRay.origin = shadowOrigin;
+                    shadowRay.direction = shadowDirection;
+                    Vec3 shadowNormal;
+                    float shadowDistance;
+                    // fourth, run through the scene and determine if a hit happens
+                    for(auto& it2 : scene.m_vHitables)
+                    {
+                        if(it2->testHit(shadowRay))
+                        {
+                            inShadow = true;
+                        } 
+                    }
+
                     
                     Vec3 color;
-                    Vec3 dumbTest;
-                    dumbTest.x = it->material.albedo.r;  
-                    dumbTest.y = it->material.albedo.g;  
-                    dumbTest.z = it->material.albedo.b;  
-                    color = dumbTest / M_PI;
-                    float testing = light->intensity * std::max(0.0f, Vec3::dot(normal, light->direction));
-                    Vec3 tempVec3 = light->color * color;
+                    if(!inShadow)
+                    {
+                        Vec3 dumbTest;
+                        dumbTest.x = it->material.albedo.r;  
+                        dumbTest.y = it->material.albedo.g;  
+                        dumbTest.z = it->material.albedo.b;  
+                        color = dumbTest / M_PI;
+                        float testing = light->intensity * std::max(0.0f, Vec3::dot(normal, light->direction));
+                        Vec3 tempVec3 = light->color * color;
 
-                    color = tempVec3 * testing;
-                    color.x = int(255.99*color.x);
-                    color.y = int(255.99*color.y);
-                    color.z = int(255.99*color.z);
+                        color = tempVec3 * testing;
+                        color.x = int(255.99*color.x);
+                        color.y = int(255.99*color.y);
+                        color.z = int(255.99*color.z);
 
-                    if(color.x > 255)
-                        color.x = 255;
-                    if(color.y > 255)
-                        color.y = 255;
-                    if(color.z > 255)
-                        color.z = 255;
+                        if(color.x > 255)
+                            color.x = 255;
+                        if(color.y > 255)
+                            color.y = 255;
+                        if(color.z > 255)
+                            color.z = 255;
+                    }
+                    else
+                    {
+                        color.x = 0.0f;
+                        color.y = 0.0f;
+                        color.z = 0.0f;
+                    }
 
                     record.color = color;
                     record.distance = distance;

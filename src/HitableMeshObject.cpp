@@ -15,6 +15,13 @@ bool HitableMeshObject::testHit(const Ray& ray, Vec3& normal, float &distance)
 }
 
 
+bool HitableMeshObject::testHit(const Ray& ray)
+{
+    bool isHit = m_mesh.testHit(ray);
+
+    return isHit;
+}
+
 void HitableMeshObject::setMesh(const Mesh &mesh)
 {
     m_mesh = mesh;

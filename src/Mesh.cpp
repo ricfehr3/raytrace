@@ -51,3 +51,25 @@ bool Mesh::testHit(const Ray &ray, Vec3& normal, float &distance) const
 
     return isHit;
 }
+
+
+bool Mesh::testHit(const Ray &ray) const
+{
+    bool isHit = false;
+    Vec3 normal;
+    float distance;
+
+    for (auto& it : tris) 
+    {
+        if(it.testHit(ray.origin, ray.direction, normal, distance))
+        {
+            if(distance > 0.1)
+            {
+                isHit = true;
+                break;
+            }
+        }
+    }
+
+    return isHit;
+}

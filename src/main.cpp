@@ -30,7 +30,7 @@ int main()
 
     Vec3 lightColor(1.0f, 1.0f, 1.0f);
     Vec3 lightPos(0.0f, 0.0f, 0.0f);
-    Vec3 lightDir(1.0f, 0.5f, -1.0f);
+    Vec3 lightDir(1.0f, 2.5f, 1.0f);
     float lightIntensity = 1.0f;
     DirectionalLight light;
     light.color = lightColor;
@@ -63,6 +63,7 @@ int main()
     renderer.setOptions(options);
     renderer.setImageName("test.ppm");
 
+    auto t1 = std::chrono::high_resolution_clock::now();
     try
     {
         renderer.render(scene); 
@@ -71,4 +72,8 @@ int main()
     {
         std::cout << "Caught Exception: " << e.what() << std::endl;
     }
+    auto t2 = std::chrono::high_resolution_clock::now();
+
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>( t2 - t1 ).count();
+    std::cout << "that took uh.... " << duration << " milliseconds" << std::endl;
 }

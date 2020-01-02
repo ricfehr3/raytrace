@@ -15,6 +15,7 @@ public:
     std::vector<Triangle> tris; 
 
     bool testHit(const Ray &ray, Vec3& normal, float &distance) const; 
+    bool testHit(const Ray &ray) const; 
 
 private:
 };

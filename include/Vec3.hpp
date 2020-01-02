@@ -19,6 +19,7 @@ public:
 
     // operator overloading
     friend std::ostream& operator<<(std::ostream& os, const Vec3& vec3);
+    Vec3 operator-() const;
     Vec3 operator+(Vec3 const &vec3) const;
     Vec3 operator-(Vec3 const &vec3) const;
     Vec3 operator*(Vec3 const &vec3) const;
