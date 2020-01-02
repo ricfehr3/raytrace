@@ -23,7 +23,7 @@ public:
 	Scene();
 
     void addMesh(const Mesh &mesh);
-    void addHitableObject(HitableObject* hitableObject);
+    void addHitableObject(std::shared_ptr<HitableObject> hitableObject);
     void addLight(std::unique_ptr<Light> &light);
     void addCamera(const Camera &camera);
     bool hasCamera() const;
@@ -32,7 +32,7 @@ public:
 private:
     friend class Renderer;
     Mesh m_mesh; 
-    std::vector<HitableObject*> m_vHitables;
+    std::vector<std::shared_ptr<HitableObject>> m_vHitables;
     std::vector<std::unique_ptr<Light>> m_vLights;
     //DirectionalLight m_light;
     Camera m_camera;

@@ -41,10 +41,12 @@ int main()
     HitableMeshObject hitable;
     hitable.material.albedo = Color(1.0f, 0.0f, 0.0f); 
     hitable.setMesh(mesh);
-
+    auto hitablePtr = std::make_shared<HitableMeshObject>(hitable);
+    auto fuck = std::dynamic_pointer_cast<HitableObject>(hitablePtr);
+        
     Scene scene;
     scene.addMesh(mesh);
-    scene.addHitableObject(&hitable);
+    scene.addHitableObject(fuck);
     scene.addCamera(cam);
     scene.addLight(lightUniqPtr);
 

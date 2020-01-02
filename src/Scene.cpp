@@ -14,9 +14,9 @@ void Scene::addMesh(const Mesh &mesh)
 }
 
 
-void Scene::addHitableObject(HitableObject* hitableObject)
+void Scene::addHitableObject(std::shared_ptr<HitableObject> hitableObject)
 {
-    m_vHitables.push_back(std::move(hitableObject));
+    m_vHitables.push_back(std::shared_ptr<HitableObject>(hitableObject));
 }
 
 
