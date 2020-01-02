@@ -14,15 +14,15 @@ void Scene::addMesh(const Mesh &mesh)
 }
 
 
-void Scene::addHitableObject(std::shared_ptr<HitableObject> hitableObject)
+void Scene::addHitableObject(std::unique_ptr<HitableObject> hitableObject)
 {
-    m_vHitables.push_back(std::shared_ptr<HitableObject>(hitableObject));
+    m_vHitables.push_back(std::move(hitableObject));
 }
 
 
-void Scene::addLight(std::shared_ptr<Light>& light)
+void Scene::addLight(std::unique_ptr<Light>& light)
 {
-    m_vLights.push_back(light);
+    m_vLights.push_back(std::move(light));
     
     m_bHasLight = true;
 }
