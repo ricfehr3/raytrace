@@ -9,6 +9,7 @@
 #include "DirectionalLight.hpp"
 #include "Camera.hpp"
 #include "HitableObject.hpp"
+#include "HitableMeshObject.hpp"
 
 // forward declare for friend class
 class Renderer;
@@ -24,7 +25,7 @@ public:
 
     void addMesh(const Mesh &mesh);
     void addHitableObject(std::shared_ptr<HitableObject> hitableObject);
-    void addLight(std::unique_ptr<Light> &light);
+    void addLight(std::shared_ptr<Light> &light);
     void addCamera(const Camera &camera);
     bool hasCamera() const;
     bool hasLight() const;
@@ -33,7 +34,7 @@ private:
     friend class Renderer;
     Mesh m_mesh; 
     std::vector<std::shared_ptr<HitableObject>> m_vHitables;
-    std::vector<std::unique_ptr<Light>> m_vLights;
+    std::vector<std::shared_ptr<Light>> m_vLights;
     //DirectionalLight m_light;
     Camera m_camera;
     bool m_bHasCamera;

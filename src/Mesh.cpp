@@ -21,11 +21,10 @@ bool Mesh::testHit(const Ray &ray, Vec3& normal, float &distance) const
     {
         if(it.testHit(ray.origin, ray.direction, normal, distance))
         {
-            isHit = true;
-
             float shadeScale = Vec3::dot(ray.direction, normal);
             if(shadeScale < 0)
             {
+                isHit = true;
                 T_HIT hit;
                 hit.distance = distance;
                 hit.normal = normal;
@@ -42,7 +41,10 @@ bool Mesh::testHit(const Ray &ray, Vec3& normal, float &distance) const
                 {
                     return lhs.distance < rhs.distance;
                 });
+    }
 
+    if(isHit)
+    {
         distance = vHits.front().distance;
         normal = vHits.front().normal;
     }

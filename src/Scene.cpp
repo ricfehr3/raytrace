@@ -20,9 +20,9 @@ void Scene::addHitableObject(std::shared_ptr<HitableObject> hitableObject)
 }
 
 
-void Scene::addLight(std::unique_ptr<Light>& light)
+void Scene::addLight(std::shared_ptr<Light>& light)
 {
-    m_vLights.push_back(std::move(light));
+    m_vLights.push_back(light);
     
     m_bHasLight = true;
 }

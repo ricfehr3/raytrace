@@ -19,7 +19,9 @@
 int main() 
 {
     Mesh mesh;
+    Mesh mesh2;
     OBJParser::ParseMesh("man_scene.obj", mesh);
+    OBJParser::ParseMesh("sphere_smooth.obj", mesh2);
 
     Vec3 camDir(0.5f, 0.5f, -1.0f);
     //Vec3 camDir(0.0f, 0.0f, -1.0f);
@@ -36,17 +38,23 @@ int main()
     light.direction = lightDir;
     light.intensity = lightIntensity;
 
-    auto lightUniqPtr = std::make_unique<Light>(light);
+    auto lightUniqPtr = std::make_shared<Light>(light);
     
     HitableMeshObject hitable;
+    HitableMeshObject hitable2;
     hitable.material.albedo = Color(1.0f, 0.0f, 0.0f); 
+    hitable2.material.albedo = Color(0.0f, 0.0f, 1.0f); 
     hitable.setMesh(mesh);
+    hitable2.setMesh(mesh2);
     auto hitablePtr = std::make_shared<HitableMeshObject>(hitable);
     auto fuck = std::dynamic_pointer_cast<HitableObject>(hitablePtr);
+    auto hitablePtr2 = std::make_shared<HitableMeshObject>(hitable2);
+    auto fuck2 = std::dynamic_pointer_cast<HitableObject>(hitablePtr2);
         
     Scene scene;
-    scene.addMesh(mesh);
+    //scene.addMesh(mesh);
     scene.addHitableObject(fuck);
+    scene.addHitableObject(fuck2);
     scene.addCamera(cam);
     scene.addLight(lightUniqPtr);
 

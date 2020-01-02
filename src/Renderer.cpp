@@ -42,6 +42,7 @@ void Renderer::render(const Scene &scene) const
 
     outfile << "P3\n" << m_options.width << " " << m_options.height << "\n255\n";
 
+    auto &light = std::move(scene.m_vLights[0]);
     for(int j = 0; j < m_options.height; j++)
     {
         for(int i = 0; i < m_options.width; i++)
@@ -77,7 +78,6 @@ void Renderer::render(const Scene &scene) const
                     
                     Vec3 color;
                     Vec3 dumbTest;
-                    auto &light = std::move(scene.m_vLights[0]);
                     dumbTest.x = it->material.albedo.r;  
                     dumbTest.y = it->material.albedo.g;  
                     dumbTest.z = it->material.albedo.b;  
