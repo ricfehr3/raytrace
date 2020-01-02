@@ -24,11 +24,14 @@ public:
     Vec3 operator-(Vec3 const &vec3) const;
     Vec3 operator*(Vec3 const &vec3) const;
     Vec3 operator/(float const scalar) const;
-    Vec3 operator*(float const scalar) const;
 
     float x, y, z;
 
 private:
 };
+
+
+Vec3 operator*(const Vec3 &vec3, float const scalar);
+Vec3 operator*(float const scalar, const Vec3 &vec3);
 
 #endif

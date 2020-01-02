@@ -1,14 +1,15 @@
-#ifndef DIRECTIONALLIGHT_HPP
-#define DIRECTIONALLIGHT_HPP
+#ifndef POINTLIGHT_HPP
+#define POINTLIGHT_HPP
 
 #include "Light.hpp"
 
-class DirectionalLight : public Light
+class PointLight : public Light
 {
 public:
-    DirectionalLight();
+    PointLight();
     virtual void getDirectionAndIntensity(const Vec3 &hitPoint, Vec3 &direction, Vec3 &intensity);
 
+    float radius;
 private:
 };
 

@@ -105,11 +105,21 @@ Vec3 Vec3::operator/(float const scalar) const
 }
 
 
-Vec3 Vec3::operator*(float const scalar) const
+Vec3 operator*(const Vec3 &vec3, float const scalar)
 {
     Vec3 res; 
-    res.x = x*scalar;
-    res.y = y*scalar;
-    res.z = z*scalar;
+    res.x = vec3.x*scalar;
+    res.y = vec3.y*scalar;
+    res.z = vec3.z*scalar;
+    return res; 
+}
+
+
+Vec3 operator*(float const scalar, const Vec3 &vec3)
+{
+    Vec3 res; 
+    res.x = vec3.x*scalar;
+    res.y = vec3.y*scalar;
+    res.z = vec3.z*scalar;
     return res; 
 }

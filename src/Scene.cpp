@@ -20,7 +20,7 @@ void Scene::addHitableObject(std::unique_ptr<HitableObject> hitableObject)
 }
 
 
-void Scene::addLight(std::unique_ptr<Light>& light)
+void Scene::addLight(std::unique_ptr<Light> light)
 {
     m_vLights.push_back(std::move(light));
     

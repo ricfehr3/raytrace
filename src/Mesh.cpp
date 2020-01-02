@@ -2,13 +2,7 @@
 #include <cmath>
 
 #include "Mesh.hpp"
-
-
-struct T_HIT
-{
-    Vec3 normal;
-    float distance;
-};
+#include "HitType.hpp"
 
 
 bool Mesh::testHit(const Ray &ray, Vec3& normal, float &distance) const

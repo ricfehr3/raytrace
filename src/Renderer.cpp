@@ -5,12 +5,7 @@
 
 #include "Renderer.hpp"
 #include "Ray.hpp"
-
-struct HitRecord
-{
-    Vec3 color;
-    float distance;
-};
+#include "HitType.hpp"
 
 Renderer::Renderer()
 {
@@ -67,14 +62,15 @@ void Renderer::render(const Scene &scene) const
             float distance;
             bool isHit = false;
             int hitCount = 0;
-            std::vector<HitRecord> vHitRecords;
+            std::vector<T_HIT> vHitRecords;
             Vec3 finalNormal;
+            Vec3 hitPoint;
             for(auto& it : scene.m_vHitables)
             {
                 if(it->testHit(ray, normal, distance))
                 {
                     isHit = true;
-                    HitRecord record;
+                    T_HIT record;
 
                     bool inShadow = false;
                     // calculate shadows, epic time:
@@ -83,6 +79,7 @@ void Renderer::render(const Scene &scene) const
                     // second, find the origin
                     // the math should make sense intuitively
                     Vec3 shadowOrigin = ray.origin + ray.direction * distance;  
+                    hitPoint = shadowOrigin;
                     // third, get the direction
                     // subtract the shadow origin from the light source position and normalize
                     //Vec3 shadowDirection = Vec3::normalize(shadowOrigin - light->position);
@@ -111,10 +108,11 @@ void Renderer::render(const Scene &scene) const
                         dumbTest.y = it->material.albedo.g;  
                         dumbTest.z = it->material.albedo.b;  
                         color = dumbTest / M_PI;
-                        float testing = light->intensity * std::max(0.0f, Vec3::dot(normal, light->direction));
-                        Vec3 tempVec3 = light->color * color;
+                        Vec3 lightIntensity;
+                        Vec3 lightDirection;
+                        light->getDirectionAndIntensity(hitPoint, lightDirection, lightIntensity);
 
-                        color = tempVec3 * testing;
+                        color = dumbTest / M_PI * light->intensity * light->color * std::max(0.0f, Vec3::dot(normal, lightDirection));
                         color.x = int(255.99*color.x);
                         color.y = int(255.99*color.y);
                         color.z = int(255.99*color.z);
@@ -143,7 +141,7 @@ void Renderer::render(const Scene &scene) const
             // determine closest hit
             if(hitCount > 1)
             { 
-                std::sort(vHitRecords.begin(), vHitRecords.end(), [](const HitRecord &lhs, const HitRecord &rhs)
+                std::sort(vHitRecords.begin(), vHitRecords.end(), [](const T_HIT &lhs, const T_HIT &rhs)
                         {
                             return lhs.distance < rhs.distance;
                         });

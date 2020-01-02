@@ -25,7 +25,7 @@ public:
 
     void addMesh(const Mesh &mesh);
     void addHitableObject(std::unique_ptr<HitableObject> hitableObject);
-    void addLight(std::unique_ptr<Light> &light);
+    void addLight(std::unique_ptr<Light> light);
     void addCamera(const Camera &camera);
     bool hasCamera() const;
     bool hasLight() const;

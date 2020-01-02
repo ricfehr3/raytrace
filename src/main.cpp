@@ -9,6 +9,7 @@
 #include "Camera.hpp"
 #include "Light.hpp"
 #include "DirectionalLight.hpp"
+#include "PointLight.hpp"
 #include "Ray.hpp"
 #include "HitableObject.hpp"
 #include "HitableMeshObject.hpp"
@@ -41,7 +42,7 @@ int main()
     light.direction = lightDir;
     light.intensity = lightIntensity;
 
-    auto lightUniqPtr = std::make_unique<Light>(light);
+    //auto lightUniqPtr = std::make_unique<Light>(light);
     
     HitableMeshObject hitable;
     HitableMeshObject hitable2;
@@ -60,7 +61,7 @@ int main()
     scene.addHitableObject(std::unique_ptr<HitableObject>(new HitableMeshObject(hitable2)));
     //scene.addHitableObject(fuck2);
     scene.addCamera(cam);
-    scene.addLight(lightUniqPtr);
+    scene.addLight(std::unique_ptr<Light>(new DirectionalLight(light)));
 
     Renderer renderer;
     RendererOptions options;
