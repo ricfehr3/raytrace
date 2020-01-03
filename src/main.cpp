@@ -19,6 +19,9 @@
 
 int main() 
 {
+    Color babyBlue(0.1176470588235294, 0.796078431372549, 0.8823529411764706);
+    Color blue(0.1176470588235294, 0.4156862745098039, 0.8823529411764706);
+    Color seafoam(0.1176470588235294, 0.8823529411764706, 0.5882352941176471);
     Mesh mesh;
     Mesh mesh2;
     OBJParser::ParseMesh("centered_sphere.obj", mesh);
@@ -26,17 +29,17 @@ int main()
     OBJParser::ParseMesh("floor.obj", mesh2);
 
     //Vec3 camDir(0.5f, 0.5f, -1.0f);
-    Vec3 camDir(0.0f, 0.0f, -1.0f);
+    Vec3 camDir(0.0f, 0.3f, -1.0f);
     //Vec3 camDir(0.0f, 0.0f, -1.0f);
     //Camera cam(Vec3(2.0f, 2.0f, 0.0f), Vec3::normalize(camDir), 0.1, 100);
-    Camera cam(Vec3(0.0f, 1.0f, 6.0f), Vec3::normalize(camDir), 0.1, 100);
+    Camera cam(Vec3(0.0f, 2.0f, 6.0f), Vec3::normalize(camDir), 0.1, 100);
     //Camera cam(Vec3(0.0f, 0.0f, 0.0f), Vec3::normalize(camDir), 0.1, 100);
 
     Vec3 lightColor(1.0f, 1.0f, 1.0f);
-    Vec3 lightPos(0.0f, 2.0f, 0.0f);
-    Vec3 lightDir(0.0f, -1.0f, 0.0f);
+    Vec3 lightPos(-1.5f, 1.5f, -0.3f);
+    Vec3 lightDir(-0.7f, -1.0f, -0.5f);
     //Vec3 lightDir(1.0f, 2.5f, 1.0f);
-    float lightIntensity = 1.0f;
+    float lightIntensity = 10.0f;
     //DirectionalLight light;
     PointLight light;
     light.color = lightColor;
@@ -49,8 +52,8 @@ int main()
     
     HitableMeshObject hitable;
     HitableMeshObject hitable2;
-    hitable.material.albedo = Color(1.0f, 0.0f, 0.0f); 
-    hitable2.material.albedo = Color(0.0f, 0.0f, 1.0f); 
+    hitable.material.albedo = seafoam; 
+    hitable2.material.albedo = babyBlue; 
     hitable.setMesh(mesh);
     hitable2.setMesh(mesh2);
     //auto hitablePtr = std::make_unique<HitableMeshObject>(hitable);
@@ -69,6 +72,7 @@ int main()
 
     Renderer renderer;
     RendererOptions options;
+    options.backgroundColor = blue;
     renderer.setOptions(options);
     renderer.setImageName("test.ppm");
 

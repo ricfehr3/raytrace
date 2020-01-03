@@ -50,9 +50,9 @@ void Renderer::render(const Scene &scene) const
 
             Ray ray = scene.m_camera.castRay(dir);
 
-            int ir = 0;
-            int ig = 0;
-            int ib = 128;
+            int ir = m_options.backgroundColor.r*(255.99);
+            int ig = m_options.backgroundColor.g*(255.99);
+            int ib = m_options.backgroundColor.b*(255.99);
 
             Vec3 color;
             Vec3 normal;
@@ -69,66 +69,65 @@ void Renderer::render(const Scene &scene) const
             {
                 if(it->testHit(ray, normal, distance))
                 {
+                    color.x = 0;
+                    color.y = 0;
+                    color.z = 0;
+                    
                     isHit = true;
                     T_HIT record;
-                    Vec3 lightIntensity;
-                    Vec3 lightDirection;
-                    float lightDistance;
-                    hitPoint = ray.origin + ray.direction * distance;
-                    light->getDirectionAndIntensity(hitPoint, lightDirection, lightIntensity, lightDistance);
 
-                    bool inShadow = false;
-                    // calculate shadows, epic time:
-                    // first, make a ray
-                    Ray shadowRay;
-                    // second, find the origin
-                    // the math should make sense intuitively
-                    Vec3 shadowOrigin = hitPoint + normal * 1e-4;
-                    // third, get the direction
-                    // subtract the shadow origin from the light source position and normalize
-                    //Vec3 shadowDirection = Vec3::normalize(shadowOrigin - light->position);
-                    //Vec3 shadowDirection = Vec3::normalize(light->direction - shadowOrigin);
-                    Vec3 shadowDirection = Vec3::normalize(-lightDirection);
-                    ////Vec3 shadowDirection = Vec3::normalize(Vec3(0.0f, 1.0f, 0.0f));
-                    shadowRay.origin = shadowOrigin;
-                    shadowRay.direction = shadowDirection;
-                    Vec3 shadowNormal;
-                    float shadowDistance;
-                    // fourth, run through the scene and determine if a hit happens
-                    for(auto& it2 : scene.m_vHitables)
+
+                    for(auto& lightItr : scene.m_vLights)
                     {
-                        if(it2->testHit(shadowRay, shadowDistance)/* && shadowDistance < lightDistance*/)
+                        Vec3 lightIntensity;
+                        Vec3 lightDirection;
+                        float lightDistance;
+                        hitPoint = ray.origin + ray.direction * distance;
+                        lightItr->getDirectionAndIntensity(hitPoint, lightDirection, lightIntensity, lightDistance);
+
+                        bool inShadow = false;
+                        // calculate shadows, epic time:
+                        // first, make a ray
+                        Ray shadowRay;
+                        // second, find the origin
+                        // the math should make sense intuitively
+                        Vec3 shadowOrigin = hitPoint + normal * 1e-4;
+                        // third, get the direction
+                        // subtract the shadow origin from the light source position and normalize
+                        Vec3 shadowDirection = Vec3::normalize(-lightDirection);
+                        shadowRay.origin = shadowOrigin;
+                        shadowRay.direction = shadowDirection;
+                        Vec3 shadowNormal;
+                        float shadowDistance;
+                        // fourth, run through the scene and determine if a hit happens
+                        for(auto& hitable : scene.m_vHitables)
                         {
-                            inShadow = true;
-                        } 
-                    }
+                            if(hitable->testHit(shadowRay, shadowDistance) && shadowDistance < lightDistance)
+                            {
+                                inShadow = true;
+                            } 
+                            else
+                            {
+                                Vec3 colorTemp;
+                                Vec3 dumbTest;
+                                dumbTest.x = it->material.albedo.r;  
+                                dumbTest.y = it->material.albedo.g;  
+                                dumbTest.z = it->material.albedo.b;  
 
-                    
-                    Vec3 color;
-                    if(!inShadow)
-                    {
-                        Vec3 dumbTest;
-                        dumbTest.x = it->material.albedo.r;  
-                        dumbTest.y = it->material.albedo.g;  
-                        dumbTest.z = it->material.albedo.b;  
+                                colorTemp = dumbTest / M_PI * lightIntensity * std::max(0.0f, Vec3::dot(normal, -lightDirection));
 
-                        color = dumbTest / M_PI * lightIntensity * std::max(0.0f, Vec3::dot(normal, -lightDirection));
-                        color.x = int(255.99*color.x);
-                        color.y = int(255.99*color.y);
-                        color.z = int(255.99*color.z);
+                                color.x += int(255.99*colorTemp.x);
+                                color.y += int(255.99*colorTemp.y);
+                                color.z += int(255.99*colorTemp.z);
 
-                        if(color.x > 255)
-                            color.x = 255;
-                        if(color.y > 255)
-                            color.y = 255;
-                        if(color.z > 255)
-                            color.z = 255;
-                    }
-                    else
-                    {
-                        color.x = 0.0f;
-                        color.y = 0.0f;
-                        color.z = 0.0f;
+                                if(color.x > 255)
+                                    color.x = 255;
+                                if(color.y > 255)
+                                    color.y = 255;
+                                if(color.z > 255)
+                                    color.z = 255;
+                            }
+                        }
                     }
 
                     record.color = color;

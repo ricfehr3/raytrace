@@ -6,6 +6,7 @@
 
 #include "Scene.hpp"
 #include "MathHelper.hpp"
+#include "Color.hpp"
 
 struct RendererOptions
 {
@@ -16,6 +17,7 @@ struct RendererOptions
         this->fov = fov;
         scale = tan(MathHelper::deg2rad(fov * 0.5));
         imageAspectRatio = width/(float)height;
+        backgroundColor = Color(0.0f, 0.0f, 0.0f);
     }
 
     RendererOptions()
@@ -25,6 +27,7 @@ struct RendererOptions
         fov = 51.52;
         scale = tan(MathHelper::deg2rad(fov * 0.5));
         imageAspectRatio = width/(float)height;
+        backgroundColor = Color(0.0f, 0.0f, 0.0f);
     }
 
     int width;
@@ -32,6 +35,7 @@ struct RendererOptions
     float fov;
     float scale;
     float imageAspectRatio;
+    Color backgroundColor;
 };
 
 class Renderer

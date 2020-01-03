@@ -9,8 +9,9 @@ PointLight::PointLight()
 
 void PointLight::getDirectionAndIntensity(const Vec3 &hitPoint, Vec3 &direction, Vec3 &intensity, float &distance)
 {
-    direction = this->position - hitPoint;
+    direction = hitPoint - this->position;
     float r2 = direction.magnitude();
+    //direction = Vec3::normalize(direction);
     distance = sqrt(r2);
     // normalize the incident light ray directions
     direction.x = direction.x / distance;
