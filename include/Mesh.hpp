@@ -14,8 +14,8 @@ class Mesh
 public:
     std::vector<Triangle> tris; 
 
-    bool testHit(const Ray &ray, Vec3& normal, float &distance) const; 
-    bool testHit(const Ray &ray) const; 
+    bool testHit(const Ray &ray, Vec3 &normal, float &distance) const; 
+    bool testHit(const Ray &ray, float &distance) const; 
 
 private:
 };

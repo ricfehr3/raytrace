@@ -41,6 +41,7 @@ public:
     void render(const Scene &scene) const;
     void setImageName(const std::string &imageName);
     void setOptions(const RendererOptions &options);
+    bool trace(const Ray &ray, float &distance);
 
 private:
     std::string m_imageName;

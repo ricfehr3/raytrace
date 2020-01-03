@@ -7,7 +7,7 @@ class PointLight : public Light
 {
 public:
     PointLight();
-    virtual void getDirectionAndIntensity(const Vec3 &hitPoint, Vec3 &direction, Vec3 &intensity);
+    virtual void getDirectionAndIntensity(const Vec3 &hitPoint, Vec3 &direction, Vec3 &intensity, float &distance);
 
     float radius;
 private:

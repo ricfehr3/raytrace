@@ -10,7 +10,7 @@ Vec3::Vec3(float x, float y, float z)
 }
 
 
-inline float Vec3::magnitude() const
+float Vec3::magnitude() const
 {
     return sqrt(x*x + y*y + z*z);
 }

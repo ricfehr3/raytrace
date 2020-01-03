@@ -9,7 +9,7 @@ class Light : public SceneObject
 public:
     Vec3 color;
     float intensity;
-    virtual void getDirectionAndIntensity(const Vec3 &hitPoint, Vec3 &direction, Vec3 &intensity) = 0;
+    virtual void getDirectionAndIntensity(const Vec3 &hitPoint, Vec3 &direction, Vec3 &intensity, float &distance) = 0;
 
 private:
 

@@ -22,25 +22,28 @@ int main()
     Mesh mesh;
     Mesh mesh2;
     OBJParser::ParseMesh("centered_sphere.obj", mesh);
+    //OBJParser::ParseMesh("plainplane.obj", mesh);
     OBJParser::ParseMesh("floor.obj", mesh2);
 
     //Vec3 camDir(0.5f, 0.5f, -1.0f);
-    Vec3 camDir(0.0f, 1.0f, -1.0f);
+    Vec3 camDir(0.0f, 0.0f, -1.0f);
     //Vec3 camDir(0.0f, 0.0f, -1.0f);
     //Camera cam(Vec3(2.0f, 2.0f, 0.0f), Vec3::normalize(camDir), 0.1, 100);
-    Camera cam(Vec3(0.0f, 5.0f, 5.0f), Vec3::normalize(camDir), 0.1, 100);
+    Camera cam(Vec3(0.0f, 1.0f, 6.0f), Vec3::normalize(camDir), 0.1, 100);
     //Camera cam(Vec3(0.0f, 0.0f, 0.0f), Vec3::normalize(camDir), 0.1, 100);
 
     Vec3 lightColor(1.0f, 1.0f, 1.0f);
-    Vec3 lightPos(0.0f, 0.0f, 0.0f);
-    Vec3 lightDir(0.1f, 1.5f, 0.0f);
+    Vec3 lightPos(0.0f, 2.0f, 0.0f);
+    Vec3 lightDir(0.0f, -1.0f, 0.0f);
     //Vec3 lightDir(1.0f, 2.5f, 1.0f);
     float lightIntensity = 1.0f;
-    DirectionalLight light;
+    //DirectionalLight light;
+    PointLight light;
     light.color = lightColor;
     light.position = lightPos;
     light.direction = lightDir;
     light.intensity = lightIntensity;
+    //light.radius = 1.0f;
 
     //auto lightUniqPtr = std::make_unique<Light>(light);
     
@@ -61,7 +64,8 @@ int main()
     scene.addHitableObject(std::unique_ptr<HitableObject>(new HitableMeshObject(hitable2)));
     //scene.addHitableObject(fuck2);
     scene.addCamera(cam);
-    scene.addLight(std::unique_ptr<Light>(new DirectionalLight(light)));
+    //scene.addLight(std::unique_ptr<Light>(new DirectionalLight(light)));
+    scene.addLight(std::unique_ptr<Light>(new PointLight(light)));
 
     Renderer renderer;
     RendererOptions options;

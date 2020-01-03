@@ -9,7 +9,7 @@ class HitableMeshObject : public HitableObject
 public:
     HitableMeshObject();
     bool testHit(const Ray &ray, Vec3 &normal, float &distance);
-    bool testHit(const Ray& ray);
+    bool testHit(const Ray& ray, float &distance);
 
     void setMesh(const Mesh &mesh);
 

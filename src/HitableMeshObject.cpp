@@ -15,9 +15,9 @@ bool HitableMeshObject::testHit(const Ray& ray, Vec3& normal, float &distance)
 }
 
 
-bool HitableMeshObject::testHit(const Ray& ray)
+bool HitableMeshObject::testHit(const Ray& ray, float &distance)
 {
-    bool isHit = m_mesh.testHit(ray);
+    bool isHit = m_mesh.testHit(ray, distance);
 
     return isHit;
 }

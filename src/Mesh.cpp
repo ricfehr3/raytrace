@@ -5,7 +5,7 @@
 #include "HitType.hpp"
 
 
-bool Mesh::testHit(const Ray &ray, Vec3& normal, float &distance) const
+bool Mesh::testHit(const Ray &ray, Vec3 &normal, float &distance) const
 {
     std::vector<T_HIT> vHits;
     bool isHit = false;
@@ -47,21 +47,21 @@ bool Mesh::testHit(const Ray &ray, Vec3& normal, float &distance) const
 }
 
 
-bool Mesh::testHit(const Ray &ray) const
+bool Mesh::testHit(const Ray &ray, float &distance) const
 {
     bool isHit = false;
     Vec3 normal;
-    float distance;
 
     for (auto& it : tris) 
     {
         if(it.testHit(ray.origin, ray.direction, normal, distance))
         {
-            if(distance > 0.1)
-            {
+            //if(distance > 0.0001)
+            //{
+
                 isHit = true;
                 break;
-            }
+            //}
         }
     }
 

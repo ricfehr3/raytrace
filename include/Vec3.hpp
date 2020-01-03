@@ -9,7 +9,7 @@ public:
     Vec3(float x, float y, float z);
     Vec3() : Vec3(0.0f, 0.0f, 0.0f) {}
 
-    inline float magnitude() const;
+    float magnitude() const;
 
     // static methods
     static float dot(const Vec3& first, const Vec3& second);

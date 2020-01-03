@@ -1,4 +1,5 @@
 #include <iostream>
+#include <limits>
 
 #include "Triangle.hpp"
 
@@ -32,6 +33,7 @@ void Triangle::calculateFlatNormals()
 
 bool Triangle::testHit(const Vec3 &orig, const Vec3 &dir, Vec3 &normal, float &distance) const
 {
+    distance = std::numeric_limits<float>::infinity();
     bool retVal = true;
     Vec3 E1vec = vert[1].v - vert[0].v;
     Vec3 E2vec = vert[2].v - vert[0].v;
@@ -49,6 +51,8 @@ bool Triangle::testHit(const Vec3 &orig, const Vec3 &dir, Vec3 &normal, float &d
     if(u < 0 || u > 1)
         retVal = false;
     if(v < 0 || (u+v) > 1)
+        retVal = false;
+    if(t < 0)
         retVal = false;
 
     if(retVal == true)

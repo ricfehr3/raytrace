@@ -71,6 +71,11 @@ void Renderer::render(const Scene &scene) const
                 {
                     isHit = true;
                     T_HIT record;
+                    Vec3 lightIntensity;
+                    Vec3 lightDirection;
+                    float lightDistance;
+                    hitPoint = ray.origin + ray.direction * distance;
+                    light->getDirectionAndIntensity(hitPoint, lightDirection, lightIntensity, lightDistance);
 
                     bool inShadow = false;
                     // calculate shadows, epic time:
@@ -78,13 +83,12 @@ void Renderer::render(const Scene &scene) const
                     Ray shadowRay;
                     // second, find the origin
                     // the math should make sense intuitively
-                    Vec3 shadowOrigin = ray.origin + ray.direction * distance;  
-                    hitPoint = shadowOrigin;
+                    Vec3 shadowOrigin = hitPoint + normal * 1e-4;
                     // third, get the direction
                     // subtract the shadow origin from the light source position and normalize
                     //Vec3 shadowDirection = Vec3::normalize(shadowOrigin - light->position);
                     //Vec3 shadowDirection = Vec3::normalize(light->direction - shadowOrigin);
-                    Vec3 shadowDirection = Vec3::normalize(light->direction);
+                    Vec3 shadowDirection = Vec3::normalize(-lightDirection);
                     ////Vec3 shadowDirection = Vec3::normalize(Vec3(0.0f, 1.0f, 0.0f));
                     shadowRay.origin = shadowOrigin;
                     shadowRay.direction = shadowDirection;
@@ -93,7 +97,7 @@ void Renderer::render(const Scene &scene) const
                     // fourth, run through the scene and determine if a hit happens
                     for(auto& it2 : scene.m_vHitables)
                     {
-                        if(it2->testHit(shadowRay))
+                        if(it2->testHit(shadowRay, shadowDistance)/* && shadowDistance < lightDistance*/)
                         {
                             inShadow = true;
                         } 
@@ -107,12 +111,8 @@ void Renderer::render(const Scene &scene) const
                         dumbTest.x = it->material.albedo.r;  
                         dumbTest.y = it->material.albedo.g;  
                         dumbTest.z = it->material.albedo.b;  
-                        color = dumbTest / M_PI;
-                        Vec3 lightIntensity;
-                        Vec3 lightDirection;
-                        light->getDirectionAndIntensity(hitPoint, lightDirection, lightIntensity);
 
-                        color = dumbTest / M_PI * light->intensity * light->color * std::max(0.0f, Vec3::dot(normal, lightDirection));
+                        color = dumbTest / M_PI * lightIntensity * std::max(0.0f, Vec3::dot(normal, -lightDirection));
                         color.x = int(255.99*color.x);
                         color.y = int(255.99*color.y);
                         color.z = int(255.99*color.z);
@@ -176,4 +176,10 @@ void Renderer::setOptions(const RendererOptions &options)
 {
     m_options = options;
     m_bOptionsSet = true;
+}
+
+
+bool Renderer::trace(const Ray &ray, float &distance)
+{
+    return false;
 }
