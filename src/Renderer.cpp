@@ -50,9 +50,9 @@ void Renderer::render(const Scene &scene) const
 
             Ray ray = scene.m_camera.castRay(dir);
 
-            int ir = m_options.backgroundColor.r*(255.99);
-            int ig = m_options.backgroundColor.g*(255.99);
-            int ib = m_options.backgroundColor.b*(255.99);
+            int ir = std::min(255.0, m_options.backgroundColor.r*(255.99));
+            int ig = std::min(255.0, m_options.backgroundColor.g*(255.99));
+            int ib = std::min(255.0, m_options.backgroundColor.b*(255.99));
 
             Vec3 color;
             Vec3 normal;
@@ -154,7 +154,6 @@ void Renderer::render(const Scene &scene) const
             }
             else
             {
-
             }
 
             outfile << ir << " " << ig << " " << ib << "\n";

@@ -1,6 +1,6 @@
 #include "Color.hpp"
 
-Color::Color(float r, float b, float g)
+Color::Color(float r, float g, float b)
 {
     this->r = r;
     this->g = g;
