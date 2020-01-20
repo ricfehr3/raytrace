@@ -5,7 +5,8 @@
 *.slo
 *.lo
 *.o
-*.obj
+# adding obj files back in for demo use
+#*.obj
 
 # Precompiled Headers
 *.gch

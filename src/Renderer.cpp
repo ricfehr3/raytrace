@@ -15,6 +15,7 @@ Renderer::Renderer()
     m_imageName = "";
     
     m_bOptionsSet = false;
+    //m_scene = Scene();
 }
 
 
@@ -67,6 +68,7 @@ void Renderer::render(const Scene &scene) const
             Vec3 hitPoint;
             for(auto& it : scene.m_vHitables)
             {
+                int depth = 0;
                 if(it->testHit(ray, normal, distance))
                 {
                     color.x = 0;
@@ -177,7 +179,84 @@ void Renderer::setOptions(const RendererOptions &options)
 }
 
 
-bool Renderer::trace(const Ray &ray, float &distance)
+void Renderer::setScene(std::unique_ptr<Scene> scene)
 {
-    return false;
+    m_scene = std::move(scene);
+}
+
+
+bool Renderer::trace(const Ray &ray, HitInfo &hitInfo)
+{
+    bool isHit = false;
+    float oldDistance = std::numeric_limits<float>::infinity();
+    float distance;
+    Vec3 normal;
+
+    for(auto& hitable : m_scene->m_vHitables)
+    {
+        if(isHit = (hitable->testHit(ray, normal, distance)))
+        {
+            if(distance < oldDistance)
+            {
+                hitInfo.distance = distance;
+                hitInfo.normal = normal;
+                hitInfo.object = hitable.get();
+            }
+        }
+    } 
+
+    return isHit;
+}
+
+
+bool Renderer::castRay(const Ray &ray)
+{
+    bool isHit = false;
+    HitInfo hitInfo; 
+    if(trace(ray, hitInfo))
+    {
+        for(auto& lightItr : m_scene->m_vLights)
+        {
+            Vec3 color;
+            Vec3 lightIntensity;
+            Vec3 lightDirection;
+            float lightDistance;
+            Vec3 hitPoint = ray.origin + ray.direction * hitInfo.distance;
+            lightItr->getDirectionAndIntensity(hitPoint, lightDirection, lightIntensity, lightDistance);
+
+            Ray shadowRay;
+            Vec3 shadowOrigin = hitPoint + hitInfo.normal * 1e-4;
+            Vec3 shadowDirection = Vec3::normalize(-lightDirection);
+            shadowRay.origin = shadowOrigin;
+            shadowRay.direction = shadowDirection;
+            float shadowDistance;
+            
+            if(hitInfo.object->testHit(shadowRay, shadowDistance) && shadowDistance < lightDistance)
+            {
+                //inShadow = true;
+            } 
+            else
+            {
+                Vec3 dumbTest;
+                dumbTest.x = hitInfo.object->material.albedo.r;  
+                dumbTest.y = hitInfo.object->material.albedo.g;  
+                dumbTest.z = hitInfo.object->material.albedo.b;  
+
+                color = dumbTest / M_PI * lightIntensity * std::max(0.0f, Vec3::dot(hitInfo.normal, -lightDirection));
+
+                if(color.x > 255)
+                    color.x = 255;
+                if(color.y > 255)
+                    color.y = 255;
+                if(color.z > 255)
+                    color.z = 255;
+            }
+        }
+    }
+}
+
+
+Vec3 Renderer::reflect(const Vec3 &I, const Vec3 &N)
+{
+    return I - 2 * Vec3::dot(I, N) * N;
 }

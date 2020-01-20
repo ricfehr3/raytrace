@@ -6,10 +6,18 @@
 class Material
 {
 public:
-    Material(Color albedo);
-    Material() : Material(Color(0.0f, 0.0f, 0.0f)) {}
+    // Enum NEEDS to be declared before constructor
+    enum Type
+    {
+        Diffuse,
+        Metal
+    };
+
+    Material(Color albedo, Type type);
+    Material() : Material(Color(0.0f, 0.0f, 0.0f), Type::Diffuse) {}
 
     Color albedo;
+    Type type;
 
 private:
 };

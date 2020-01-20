@@ -3,6 +3,7 @@
 
 #include <string>
 #include <cmath>
+#include <memory>
 
 #include "Scene.hpp"
 #include "MathHelper.hpp"
@@ -38,6 +39,7 @@ struct RendererOptions
     Color backgroundColor;
 };
 
+
 class Renderer
 {
 public:
@@ -45,12 +47,25 @@ public:
     void render(const Scene &scene) const;
     void setImageName(const std::string &imageName);
     void setOptions(const RendererOptions &options);
-    bool trace(const Ray &ray, float &distance);
+    void setScene(std::unique_ptr<Scene> scene);
 
 private:
+
+    struct HitInfo
+    {
+        HitableObject* object;
+        Vec3 normal;
+        float distance;
+    };
+
     std::string m_imageName;
     RendererOptions m_options;
     bool m_bOptionsSet;
+    std::unique_ptr<Scene> m_scene;
+
+    bool trace(const Ray &ray, HitInfo &hitInfo);
+    bool castRay(const Ray &ray);
+    Vec3 reflect(const Vec3 &I, const Vec3 &N);
 };
 
 #endif
